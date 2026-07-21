@@ -1,0 +1,43 @@
+name: Dry run test
+
+on:
+  push:
+    paths:
+      - "trigger/**"
+
+permissions:
+  contents: write
+
+jobs:
+  dryrun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg and fonts
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+      - name: Run sync in DRY_RUN mode
+        id: run
+        continue-on-error: true
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          DRY_RUN: "true"
+        run: |
+          set -o pipefail
+          python3 sync.py 2>&1 | tee /tmp/dryrun.log
+      - name: Commit log back to repo
+        run: |
+          mkdir -p logs
+          cp /tmp/dryrun.log logs/dryrun-latest.log
+          echo "exit_status=${{ steps.run.outcome }}" >> logs/dryrun-latest.log
+          git config user.name "sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add logs/dryrun-latest.log
+          git commit -m "dry-run log [skip ci]" || echo "no changes"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push

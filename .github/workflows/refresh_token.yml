@@ -1,0 +1,43 @@
+name: Refresh Instagram token
+
+on:
+  schedule:
+    - cron: "37 3 * * 1"   # weekly, Monday 03:37 UTC
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install pynacl
+        run: pip install pynacl requests
+      - name: Refresh and store token
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 - <<'EOF'
+          import os, requests
+          from nacl import encoding, public
+
+          tok = os.environ["IG_ACCESS_TOKEN"]
+          r = requests.get("https://graph.instagram.com/refresh_access_token",
+                           params={"grant_type": "ig_refresh_token",
+                                   "access_token": tok}, timeout=60)
+          r.raise_for_status()
+          new = r.json()["access_token"]
+
+          repo = os.environ["REPO"]
+          h = {"Authorization": f"Bearer {os.environ['GH_PAT']}",
+               "Accept": "application/vnd.github+json"}
+          k = requests.get(f"https://api.github.com/repos/{repo}/actions/secrets/public-key",
+                           headers=h, timeout=60).json()
+          pk = public.PublicKey(k["key"].encode(), encoding.Base64Encoder())
+          enc = public.SealedBox(pk).encrypt(new.encode())
+          import base64
+          requests.put(f"https://api.github.com/repos/{repo}/actions/secrets/IG_ACCESS_TOKEN",
+                       headers=h, json={"encrypted_value": base64.b64encode(enc).decode(),
+                                        "key_id": k["key_id"]}, timeout=60).raise_for_status()
+          print("IG token refreshed and secret updated")
+          EOF
