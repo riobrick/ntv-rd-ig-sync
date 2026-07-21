@@ -43,11 +43,19 @@ def http(url, method="GET", headers=None, data=None, timeout=120):
             body = urllib.parse.urlencode(data).encode()
         else:
             body = data
-    with urllib.request.urlopen(
-        urllib.request.Request(url, data=body, method=method, headers=headers or {}),
-        timeout=timeout,
-    ) as r:
-        return json.loads(r.read().decode())
+    try:
+        with urllib.request.urlopen(
+            urllib.request.Request(url, data=body, method=method, headers=headers or {}),
+            timeout=timeout,
+        ) as r:
+            return json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode()[:1000]
+        except Exception:
+            pass
+        raise RuntimeError(f"HTTP {e.code} for {url.split('?')[0]}: {detail}") from None
 
 
 def x_api(path, params):
@@ -79,14 +87,25 @@ def gemini(prompt):
         "contents": [{"parts": [{"text": prompt}]}],
         "generationConfig": {"temperature": 0.4},
     }).encode()
-    r = http(
-        "https://generativelanguage.googleapis.com/v1beta/models/"
-        "gemini-2.0-flash:generateContent",
-        method="POST",
-        headers={"content-type": "application/json",
-                 "x-goog-api-key": GEMINI_KEY},
-        data=body)
-    return r["candidates"][0]["content"]["parts"][0]["text"]
+    last_err = None
+    for model in ("gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash"):
+        for attempt in range(2):
+            try:
+                r = http(
+                    "https://generativelanguage.googleapis.com/v1beta/models/"
+                    f"{model}:generateContent",
+                    method="POST",
+                    headers={"content-type": "application/json",
+                             "x-goog-api-key": GEMINI_KEY},
+                    data=body)
+                return r["candidates"][0]["content"]["parts"][0]["text"]
+            except RuntimeError as e:
+                last_err = e
+                if "HTTP 429" in str(e) and attempt == 0:
+                    time.sleep(20)
+                else:
+                    break
+    raise last_err
 
 
 def deepl_translate(text):
