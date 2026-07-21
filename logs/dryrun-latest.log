@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 284, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 217, in main
+    user = x_api(f"users/by/username/{X_USERNAME}", {})["data"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 55, in x_api
+    return http(url, headers={"Authorization": f"Bearer {X_BEARER}"})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 46, in http
+    with urllib.request.urlopen(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 402: Payment Required
+exit_status=failure
