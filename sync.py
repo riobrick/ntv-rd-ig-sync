@@ -274,12 +274,17 @@ def preview_note(url, kind, caption, note=""):
 
 def main():
     user = x_api(f"users/by/username/{X_USERNAME}", {})["data"]
-    tweets = x_api(f"users/{user['id']}/tweets", {
+    params = {
         "max_results": LOOKBACK, "exclude": "replies,retweets",
         "expansions": "attachments.media_keys",
         "media.fields": "url,variants,type,media_key",
         "tweet.fields": "created_at,text,entities",
-    })
+    }
+    if os.environ.get("START_TIME"):
+        params["start_time"] = os.environ["START_TIME"]
+    if os.environ.get("END_TIME"):
+        params["end_time"] = os.environ["END_TIME"]
+    tweets = x_api(f"users/{user['id']}/tweets", params)
     media_map = {m["media_key"]: m for m in tweets.get("includes", {}).get("media", [])}
     posted_ids = load_posted_ids()
     existing = "" if (PREVIEW or CAPTIONS_ONLY) else " ".join(ig_recent_captions())

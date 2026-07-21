@@ -26,8 +26,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
           CAPTIONS_ONLY: "true"
-          MAX_POSTS_PER_RUN: "5"
-          LOOKBACK_TWEETS: "25"
+          MAX_POSTS_PER_RUN: "50"
+          LOOKBACK_TWEETS: "100"
+          START_TIME: "2026-06-30T15:00:00Z"   # 2026-07-01 00:00 JST
         run: |
           set -o pipefail
           rm -f preview/captions.md
