@@ -1,0 +1,36 @@
+name: Count posts
+
+on:
+  push:
+    paths:
+      - "trigger-count/**"
+
+permissions:
+  contents: write
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Count
+        id: run
+        continue-on-error: true
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          START_TIME: "2025-07-20T15:00:00Z"   # 2025-07-21 00:00 JST
+        run: |
+          set -o pipefail
+          python3 count_posts.py 2>&1 | tee /tmp/count.log
+      - name: Commit log
+        run: |
+          mkdir -p logs
+          cp /tmp/count.log logs/count-latest.log
+          echo "exit_status=${{ steps.run.outcome }}" >> logs/count-latest.log
+          git config user.name "sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add logs/count-latest.log
+          git commit -m "count log [skip ci]" || echo "no changes"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push
