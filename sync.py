@@ -197,12 +197,23 @@ Xポスト本文:
   "caption_ja": "Instagramキャプション日本語。原文の文章をそのまま使い、@ユーザー名は一字も変更しない(@メンションの捏造は厳禁)。ハッシュタグはInstagramの上限に合わせ、日本語・英語を厳選して合計5個ちょうどまで(原文由来のタグも5個の中に含める)。URLは入れない",
   "caption_en": "自然で簡潔な英訳(直訳調を避ける)。@ユーザー名は原文のまま。ハッシュタグとURLは入れない(タグはcaption_ja側の5個のみ)"
 }}"""
+    providers = []
     if ANTHROPIC_KEY:
-        txt = claude(prompt).strip()
-    elif CLAUDE_OAUTH:
-        txt = claude_code(prompt).strip()
-    else:
-        txt = gemini(prompt).strip()
+        providers.append(("claude-api", claude))
+    if CLAUDE_OAUTH:
+        providers.append(("claude-code", claude_code))
+    if GEMINI_KEY:
+        providers.append(("gemini", gemini))
+    txt, last_err = None, None
+    for name, fn in providers:
+        try:
+            txt = fn(prompt).strip()
+            break
+        except Exception as e:
+            print(f"provider {name} failed: {str(e)[:200]}")
+            last_err = e
+    if txt is None:
+        raise last_err
     if txt.startswith("```"):
         txt = txt.strip("`").lstrip("json").strip()
     return json.loads(txt)
