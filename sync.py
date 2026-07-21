@@ -171,7 +171,7 @@ def save_posted_id(tweet_id):
 
 def generate_copy(tweet_text, n_telops):
     """Generate hook, title, telops and bilingual caption. Returns dict."""
-    if not (ANTHROPIC_KEY or CLAUDE_OAUTH or GEMINI_KEY):
+    if not (ANTHROPIC_KEY or CLAUDE_OAUTH):
         if DEEPL_KEY:
             return {"hook_line1": "", "hook_line2": "", "title": "",
                     "telops": [], "caption_ja": tweet_text,
