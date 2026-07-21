@@ -29,6 +29,7 @@ import overlays
 X_BEARER = os.environ["X_BEARER_TOKEN"]
 IG_TOKEN = os.environ["IG_ACCESS_TOKEN"]
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+CLAUDE_OAUTH = os.environ.get("CLAUDE_CODE_OAUTH_TOKEN", "")
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 DEEPL_KEY = os.environ.get("DEEPL_API_KEY", "")
 GH_REPO = os.environ.get("GITHUB_REPOSITORY", "")
@@ -97,6 +98,21 @@ def claude(prompt):
     raise last_err
 
 
+def claude_code(prompt):
+    """Generate via Claude Code CLI authenticated with a Max-plan OAuth token."""
+    for attempt in range(3):
+        r = subprocess.run(
+            ["claude", "-p", "--output-format", "text"],
+            input=prompt, capture_output=True, text=True, timeout=300,
+            env={**os.environ, "CLAUDE_CODE_OAUTH_TOKEN": CLAUDE_OAUTH})
+        out = (r.stdout or "").strip()
+        if r.returncode == 0 and out:
+            return out
+        print(f"claude-code attempt {attempt+1} failed: {(r.stderr or out)[:300]}")
+        time.sleep(20)
+    raise RuntimeError("claude code CLI failed after retries")
+
+
 def gemini(prompt):
     body = json.dumps({
         "contents": [{"parts": [{"text": prompt}]}],
@@ -155,7 +171,7 @@ def save_posted_id(tweet_id):
 
 def generate_copy(tweet_text, n_telops):
     """Generate hook, title, telops and bilingual caption. Returns dict."""
-    if not (ANTHROPIC_KEY or GEMINI_KEY):
+    if not (ANTHROPIC_KEY or CLAUDE_OAUTH or GEMINI_KEY):
         if DEEPL_KEY:
             return {"hook_line1": "", "hook_line2": "", "title": "",
                     "telops": [], "caption_ja": tweet_text,
@@ -181,7 +197,12 @@ Xポスト本文:
   "caption_ja": "Instagramキャプション日本語。原文の文章をそのまま使い、@ユーザー名は一字も変更しない(@メンションの捏造は厳禁)。ハッシュタグはInstagramの上限に合わせ、日本語・英語を厳選して合計5個ちょうどまで(原文由来のタグも5個の中に含める)。URLは入れない",
   "caption_en": "自然で簡潔な英訳(直訳調を避ける)。@ユーザー名は原文のまま。ハッシュタグとURLは入れない(タグはcaption_ja側の5個のみ)"
 }}"""
-    txt = (claude(prompt) if ANTHROPIC_KEY else gemini(prompt)).strip()
+    if ANTHROPIC_KEY:
+        txt = claude(prompt).strip()
+    elif CLAUDE_OAUTH:
+        txt = claude_code(prompt).strip()
+    else:
+        txt = gemini(prompt).strip()
     if txt.startswith("```"):
         txt = txt.strip("`").lstrip("json").strip()
     return json.loads(txt)
