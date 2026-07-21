@@ -1,8 +1,8 @@
 name: X to Instagram sync
 
 on:
-  schedule:
-    - cron: "7 * * * *"   # hourly at :07 UTC
+  # schedule:            # DISABLED until video format is finalized
+  #   - cron: "7 * * * *"
   workflow_dispatch:
     inputs:
       dry_run:
