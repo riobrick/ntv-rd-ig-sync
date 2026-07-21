@@ -1,80 +1,96 @@
 
 ---
 
-## https://x.com/ntv_rd/status/2051896281128476873
+## https://x.com/ntv_rd/status/2075241833840640022
 
 種別: 動画リール
 
 ### 投稿キャプション
 
 ```
-NIKEの巨大エアにダイブ！AIRシリーズ歴史と未来に没入できるインスタレーション『NikeAir_Lab』。未公開のプロトタイプ約100点や、「空気をデザインする」様々なワークショップも。本ラボは、Dropcityにて今秋、正式にオープン予定とのこと
+歌舞伎町でガス人間に遭遇！！ドローン×LEDビジョンによる“空飛ぶディスプレイ”で、実空間に映像が浮かぶ超演出。透過タイプなのでガス表現との相性も抜群。俳優のUTAさんも登場
 
-#MilanDesignWeek2026 #ミラノデザインウィーク2026 #NikeAir_Lab #Nike #Dropcity
+#ガス人間 #ドローン #LEDビジョン #歌舞伎町 #UTA
 
-Dive into NIKE's massive air installation! 'NikeAir_Lab' offers an immersive experience into the history and future of the AIR series, featuring around 100 unseen prototypes and workshops on 'designing air.' The lab is set to officially open at Dropcity this autumn.
+Encountered the "Gas Human" in Kabukicho! A spectacular show featuring a "flying display" powered by drones and LED screens, making images float in mid-air. The transparent screen perfectly captures the gas effect. Actor UTA also made an appearance!
 ```
 
 ---
 
-## https://x.com/ntv_rd/status/2052011192886153616
+## https://x.com/ntv_rd/status/2075949265751544258
 
 種別: 動画リール
 
 ### 投稿キャプション
 
 ```
-バチバチの光とスパーク音で、記憶をザッピング。WOWがミラノで発表した、アンテプリマ・130との新作インスタレーション『Link of Moments x Link of Existence』。体験者はAI生成映像に取り込まれ、意識の深層に眠る「記憶の断片」と遭遇する
+このフライングLEDビジョンはMPLUSPLUSさん@mplusplus_jpn が開発したもの。こんなふうに畳めちゃうんですね
 
-#MilanDesignWeek2026 #ミラノデザインウィーク2026 #WOW #アンテプリマ #インスタレーション
+#ntvrd #mplusplus #フライングLEDビジョン #LEDビジョン #テクノロジー
 
-Zapping through memories with flashing lights and sparking sounds. WOW presented "Link of Moments x Link of Existence," a new installation in collaboration with ANTEPRIMA/130 in Milan. Immersed in AI-generated visuals, visitors encounter fragments of memory resting deep within their consciousness.
+This flying LED vision was developed by MPLUSPLUS @mplusplus_jpn. It's amazing how it folds up like this!
 ```
 
 ---
 
-## https://x.com/ntv_rd/status/2056698973856157823
+## https://x.com/ntv_rd/status/2076197936254627865
 
 種別: 動画リール
 
 ### 投稿キャプション
 
 ```
-ミラノに巨大タコが出現！モンクレールのインスタレーション『Have a Puffy Summer』。同ブランドを象徴する“ふくらみ”を再解釈したもの。室内にも伸びた脚の横に、新作の夏物コレクションがずらりと並ぶ。大人気でした！
+これらワールドカップのスタジアム…ではなくLEDドームシアターCosm！本日のアルゼンチンvsスイス戦の様子。最大12Kの解像度誇り、リアルとバーチャルの間で「シェアードリアリティ」という新たな体験を創出。スポーツ観戦の新しいかたち。ちなみに高い席は約12万円で完売、ビール一杯約2,500円
 
-#Moncler #MilanDesignWeek2026 #ミラノデザインウィーク2026 #モンクレール #ミラノデザインウィーク
+#Cosm #SharedReality #シェアードリアリティ #スポーツ観戦 #LEDドーム
 
-A giant octopus has taken over Milan! Moncler's installation "Have a Puffy Summer" reinterprets the brand's iconic puffiness. Inside, giant tentacles stretch alongside the newly displayed summer collection. It was a huge hit!
+Is this a World Cup stadium? No, it's the Cosm LED dome theater! Showing the Argentina vs. Switzerland match. With up to 12K resolution, it creates a "shared reality" experience bridging the physical and virtual. The future of sports viewing. Fun fact: premium seats sold out at around 120,000 yen, and a beer is about 2,500 yen!
 ```
 
 ---
 
-## https://x.com/ntv_rd/status/2057034714964492722
+## https://x.com/ntv_rd/status/2078439413902876780
 
 種別: 動画リール
 
 ### 投稿キャプション
 
 ```
-Samsungのオープンラボイベント『Design is an Act of Love』展。初公開の円形AIコンパニオン「Project Luna」をはじめ、デザインコンセプトなど120以上のアイテムを展示！デバイス同士が連携して動く近未来の世界観が、表現豊かに描かれていました
+ラスボス感やばいKASTさんの新型レーザーロボ『BEAM TWISTER - tristruct -』。全長7m、36本のアームで描くバチバチのビームフォーメーション！単なるレーザー演出を超えたバリエーションで空間を彩る
 
-#MilanDesignWeek2026 #ミラノデザインウィーク2026 #Samsung #ProjectLuna #AI
+#KAST #BEAMTWISTER #レーザー #ロボット #メディアアート
 
-Samsung's open lab exhibition, 'Design is an Act of Love.' Featuring the debut of the round AI companion 'Project Luna,' the event showcases over 120 design concepts and items! It beautifully illustrates a near-future world where devices seamlessly connect and interact.
+KAST's new laser robot "BEAM TWISTER - tristruct -" radiates pure final-boss energy! With a 7-meter span and 36 arms, it creates intense beam formations that go far beyond traditional laser shows to beautifully transform the space.
 ```
 
 ---
 
-## https://x.com/ntv_rd/status/2057052726534795440
+## https://x.com/ntv_rd/status/2078688510530531366
 
 種別: 動画リール
 
 ### 投稿キャプション
 
 ```
-スイスのモジュラー家具ブランドUSMは、白い巨大バルーンで展示空間を構築！建築スタジオSnøhettaとのコラボによる『Renaissance of the Real』。デジタルの喧騒から離れ、身体感覚の再発見を促す没入型のインスタレーション
+横浜七夕祭りで披露されたKAST『BEAM TWISTER -tristruct- 』によるビームショー。36本のロボットアーム先端にチルトプロジェクターを搭載するモンスター機材。発光部を物理的に動かすことによる圧巻の演出。点光源を面光源に変換し照射する構造でエネルギーを拡散、安全性を向上させている
 
-#MilanDesignWeek2026 #ミラノデザインウィーク2026 #USM #Snohetta #インスタレーション
+#KAST #BEAMTWISTER #横浜七夕祭り #ビームショー #ロボットアーム
 
-Swiss modular furniture brand USM has created an exhibition space using giant white balloons! 'Renaissance of the Real' is a collaboration with architecture studio Snøhetta. This immersive installation invites us to step away from digital noise and rediscover our physical senses.
+The breathtaking beam show by KAST "BEAM TWISTER -tristruct-" presented at the Yokohama Tanabata Festival. This monster machine features tilt projectors mounted on the tips of 36 robot arms. The physical movement of the light sources creates a stunning performance. By converting point light sources into area light sources, the structure diffuses energy and enhances safety.
+```
+
+---
+
+## https://x.com/ntv_rd/status/2078746176611094629
+
+種別: 動画リール
+
+### 投稿キャプション
+
+```
+クモの視点を感じる『トマス・サラセーノ: 共織宇宙（Tomas Saraceno: Interwoven）』。大空間の「Algo-r(h)i(y)thms」は、張り巡らされた糸を弾くと音が鳴り、他者との即興的な協働による旋律を奏でるインスタレーション。観客を「生命の網」へと誘う没入型展覧会。台湾・新北市美術館にて9/6まで！
+
+#トマスサラセーノ #TomasSaraceno #新北市美術館 #現代アート #没入型展覧会
+
+Experience a spider's perspective at 'Tomas Saraceno: Interwoven'. In the vast installation 'Algo-r(h)i(y)thms', plucking the web-like threads generates sound, creating a collaborative melody with other visitors. An immersive exhibition that draws you into the 'web of life'. Open at the New Taipei City Art Museum, Taiwan until September 6!
 ```
