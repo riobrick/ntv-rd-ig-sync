@@ -1,0 +1,41 @@
+name: Diag claude cli
+
+on:
+  push:
+    paths:
+      - "trigger-diag/**"
+
+permissions:
+  contents: write
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install claude code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Probe CLI
+        continue-on-error: true
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          {
+            echo "== version =="
+            timeout 30 claude --version || echo "version exit=$?"
+            echo "== token prefix =="
+            echo "${CLAUDE_CODE_OAUTH_TOKEN:0:12} (len=${#CLAUDE_CODE_OAUTH_TOKEN})"
+            echo "== prompt test =="
+            timeout 90 claude -p --output-format text "Reply with exactly: OK" 2>&1 || echo "prompt exit=$?"
+          } | tee /tmp/diag.log
+      - name: Commit diag log
+        run: |
+          mkdir -p logs
+          cp /tmp/diag.log logs/diag-latest.log
+          git config user.name "sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add logs/diag-latest.log
+          git commit -m "diag log [skip ci]" || echo "no changes"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push
