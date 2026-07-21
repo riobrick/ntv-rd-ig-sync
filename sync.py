@@ -15,6 +15,7 @@ Modes:
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -35,6 +36,8 @@ GH_PAT = os.environ.get("GH_PAT", os.environ.get("GITHUB_TOKEN", ""))
 X_USERNAME = os.environ.get("X_USERNAME", "ntv_rd")
 DRY_RUN = os.environ.get("DRY_RUN", "false").lower() == "true"
 PREVIEW = os.environ.get("PREVIEW", "false").lower() == "true"
+CAPTIONS_ONLY = os.environ.get("CAPTIONS_ONLY", "false").lower() == "true"
+STATE_FILE = "posted_ids.json"
 MAX_POSTS_PER_RUN = int(os.environ.get("MAX_POSTS_PER_RUN", "3"))
 LOOKBACK = int(os.environ.get("LOOKBACK_TWEETS", "10"))
 
@@ -109,6 +112,26 @@ def deepl_translate(text):
     return r["translations"][0]["text"]
 
 
+def clean_tweet_text(text):
+    """Remove X's internal t.co media links; tidy whitespace."""
+    t = re.sub(r"https?://t\.co/\S+", "", text)
+    return re.sub(r"[ \t]+\n", "\n", t).strip()
+
+
+def load_posted_ids():
+    try:
+        with open(STATE_FILE, encoding="utf-8") as f:
+            return set(json.load(f))
+    except FileNotFoundError:
+        return set()
+
+
+def save_posted_id(tweet_id):
+    ids = sorted(load_posted_ids() | {tweet_id})
+    with open(STATE_FILE, "w", encoding="utf-8") as f:
+        json.dump(ids, f, indent=0)
+
+
 def generate_copy(tweet_text, n_telops):
     """Generate hook, title, telops and bilingual caption. Returns dict."""
     if not (ANTHROPIC_KEY or GEMINI_KEY):
@@ -134,8 +157,8 @@ Xポスト本文:
   "hook_line2": "フックのサブタイトル(補足の一言、全角18文字以内。不要なら空文字)",
   "title": "画面上部に常時表示する小さめのヘッダー(作家名・イベント名と会場・会期など、全角22文字以内)",
   {telop_req},
-  "caption_ja": "Instagramキャプション日本語。原文をそのまま使い、@ユーザー名やURLは一字も変更しない。原文にないハッシュタグを追加してよいが、@メンションの捏造は厳禁",
-  "caption_en": "自然で簡潔な英訳(直訳調を避ける)。@ユーザー名は原文のまま"
+  "caption_ja": "Instagramキャプション日本語。原文の文章をそのまま使い、@ユーザー名は一字も変更しない(@メンションの捏造は厳禁)。ハッシュタグはInstagramの上限に合わせ、日本語・英語を厳選して合計5個ちょうどまで(原文由来のタグも5個の中に含める)。URLは入れない",
+  "caption_en": "自然で簡潔な英訳(直訳調を避ける)。@ユーザー名は原文のまま。ハッシュタグとURLは入れない(タグはcaption_ja側の5個のみ)"
 }}"""
     txt = (claude(prompt) if ANTHROPIC_KEY else gemini(prompt)).strip()
     if txt.startswith("```"):
@@ -258,13 +281,15 @@ def main():
         "tweet.fields": "created_at,text,entities",
     })
     media_map = {m["media_key"]: m for m in tweets.get("includes", {}).get("media", [])}
-    existing = " ".join(ig_recent_captions())
+    posted_ids = load_posted_ids()
+    existing = "" if (PREVIEW or CAPTIONS_ONLY) else " ".join(ig_recent_captions())
     posted = 0
 
     for tw in reversed(tweets.get("data", [])):
         url = f"https://x.com/{X_USERNAME}/status/{tw['id']}"
-        if tw["id"] in existing:
+        if tw["id"] in posted_ids or tw["id"] in existing:
             continue
+        text = clean_tweet_text(tw["text"])
         keys = tw.get("attachments", {}).get("media_keys", [])
         media = [media_map[k] for k in keys if k in media_map]
         if not media:
@@ -276,10 +301,15 @@ def main():
         vids = [m for m in media if m["type"] in ("video", "animated_gif")]
         imgs = [m["url"] for m in media if m["type"] == "photo"]
 
-        if DRY_RUN:
-            copy = generate_copy(tw["text"], 4 if vids else 0)
-            print(json.dumps(copy, ensure_ascii=False, indent=2))
-            print("DRY_RUN: not posting")
+        if DRY_RUN or CAPTIONS_ONLY:
+            copy = generate_copy(text, 4 if (vids and not CAPTIONS_ONLY) else 0)
+            caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}"
+            if CAPTIONS_ONLY:
+                kind = "動画リール" if vids else f"画像投稿 ({len(imgs)}枚)"
+                preview_note(url, kind, caption)
+            else:
+                print(json.dumps(copy, ensure_ascii=False, indent=2))
+                print("DRY_RUN: not posting")
             posted += 1
             continue
 
@@ -288,8 +318,8 @@ def main():
                 src, out = f"{td}/src.mp4", f"{td}/reel.mp4"
                 urllib.request.urlretrieve(pick_video_variant(vids[0]), src)
                 dur = probe_duration(src)
-                copy = generate_copy(tw["text"], n_telops_for(dur))
-                caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}\n\n{url}"
+                copy = generate_copy(text, n_telops_for(dur))
+                caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}"
                 render_video(src, out, copy, dur, td)
                 if PREVIEW:
                     os.makedirs("preview", exist_ok=True)
@@ -302,14 +332,16 @@ def main():
                                            "video_url": host_url,
                                            "caption": caption,
                                            "share_to_feed": "true"})
+                    save_posted_id(tw["id"])
             else:
-                copy = generate_copy(tw["text"], 0)
-                caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}\n\n{url}"
+                copy = generate_copy(text, 0)
+                caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}"
                 if PREVIEW:
                     note = "\n\n画像URL:\n" + "\n".join(imgs)
                     preview_note(url, f"画像投稿 ({len(imgs)}枚, 無編集)", caption, note)
                 elif len(imgs) == 1:
                     ig_create_and_publish({"image_url": imgs[0], "caption": caption})
+                    save_posted_id(tw["id"])
                 else:
                     children = []
                     for iu in imgs[:10]:
@@ -320,6 +352,7 @@ def main():
                     ig_create_and_publish({"media_type": "CAROUSEL",
                                            "children": ",".join(children),
                                            "caption": caption})
+                    save_posted_id(tw["id"])
         print(f"{'previewed' if PREVIEW else 'posted'}: {url}")
         posted += 1
 
