@@ -25,18 +25,20 @@ while True:
         "start_time": START,
         "tweet.fields": "created_at",
         "expansions": "attachments.media_keys",
-        "media.fields": "type,media_key",
+        "media.fields": "type,media_key,width,height",
     }
     if token:
         params["pagination_token"] = token
     page = x_api(f"users/{user['id']}/tweets", params)
-    media_map = {m["media_key"]: m["type"]
+    media_map = {m["media_key"]: m
                  for m in page.get("includes", {}).get("media", [])}
     for tw in page.get("data", []):
         keys = tw.get("attachments", {}).get("media_keys", [])
-        types = sorted({media_map.get(k, "?") for k in keys})
+        ms = [media_map[k] for k in keys if k in media_map]
+        types = sorted({m["type"] for m in ms})
+        dims = [[m.get("width"), m.get("height")] for m in ms]
         out.append({"id": tw["id"], "created_at": tw["created_at"],
-                    "media": types, "text": tw["text"]})
+                    "media": types, "dims": dims, "text": tw["text"]})
     token = page.get("meta", {}).get("next_token")
     if not token:
         break

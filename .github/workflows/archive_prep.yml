@@ -1,0 +1,41 @@
+name: Archive prep
+
+on:
+  push:
+    paths:
+      - "trigger-archive/**"
+
+permissions:
+  contents: write
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Dump posts since Apr 2025 and generate rewrites
+        id: run
+        continue-on-error: true
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          START_TIME: "2025-03-31T15:00:00Z"   # 2025-04-01 00:00 JST
+        run: |
+          set -o pipefail
+          rm -f preview/archive_rewrites.json
+          python3 dump_posts.py 2>&1 | tee /tmp/prep.log
+          python3 rewrite_archive.py 2>&1 | tee -a /tmp/prep.log
+      - name: Commit outputs
+        run: |
+          mkdir -p logs preview
+          cp /tmp/prep.log logs/archive-prep-latest.log
+          echo "exit_status=${{ steps.run.outcome }}" >> logs/archive-prep-latest.log
+          git config user.name "sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A logs preview
+          git commit -m "archive prep outputs [skip ci]" || echo "no changes"
+          git pull --rebase origin ${GITHUB_REF_NAME} || true
+          git push
