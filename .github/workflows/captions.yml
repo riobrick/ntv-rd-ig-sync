@@ -15,7 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install deps
-        run: pip install pillow
+        run: |
+          pip install pillow
           npm install -g @anthropic-ai/claude-code
       - name: Generate captions only
         id: run
