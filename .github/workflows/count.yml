@@ -23,6 +23,7 @@ jobs:
         run: |
           set -o pipefail
           python3 count_posts.py 2>&1 | tee /tmp/count.log
+          python3 dump_posts.py 2>&1 | tee -a /tmp/count.log
       - name: Commit log
         run: |
           mkdir -p logs
@@ -30,7 +31,7 @@ jobs:
           echo "exit_status=${{ steps.run.outcome }}" >> logs/count-latest.log
           git config user.name "sync-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add logs/count-latest.log
+          git add logs/count-latest.log preview/posts_dump.json
           git commit -m "count log [skip ci]" || echo "no changes"
           git pull --rebase origin ${GITHUB_REF_NAME} || true
           git push
