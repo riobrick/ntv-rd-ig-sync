@@ -24,6 +24,7 @@ jobs:
         run: |
           sudo apt-get update -q
           sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+          pip install pillow
       - name: Run sync
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
