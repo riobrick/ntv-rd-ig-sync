@@ -1,34 +1,37 @@
 skip (no media): https://x.com/ntv_rd/status/2062826902101127448
 processing: https://x.com/ntv_rd/status/2063974384692539498
-NOTE: no translation API key set; using placeholder copy
-{
-  "title_line1": "",
-  "title_line2": "",
-  "telops": [],
-  "caption_ja": "空間デザイナー山本大介さんによるインスタレーション『TIME SCAPE』。資源の循環をテーマに、軽量鉄骨材を用いて制作。時の流れを風景として可視化した作品。振り子が刻む音も心地よい。機構設計は@spline_info 。new balanceの体験型ストアT-HOUSE@日本橋浜町にて、明日6/9まで！ https://t.co/UcW0L3El6f",
-  "caption_en": "(EN translation pending)"
-}
-DRY_RUN: not posting
-skip (no media): https://x.com/ntv_rd/status/2069355460671803642
-processing: https://x.com/ntv_rd/status/2075241833840640022
-NOTE: no translation API key set; using placeholder copy
-{
-  "title_line1": "",
-  "title_line2": "",
-  "telops": [],
-  "caption_ja": "歌舞伎町でガス人間に遭遇！！ドローン×LEDビジョンによる“空飛ぶディスプレイ”で、実空間に映像が浮かぶ超演出。透過タイプなのでガス表現との相性も抜群。俳優のUTAさんも登場\n#ガス人間 https://t.co/jqe7U83a6T",
-  "caption_en": "(EN translation pending)"
-}
-DRY_RUN: not posting
-processing: https://x.com/ntv_rd/status/2075949265751544258
-NOTE: no translation API key set; using placeholder copy
-{
-  "title_line1": "",
-  "title_line2": "",
-  "telops": [],
-  "caption_ja": "このフライングLEDビジョンはMPLUSPLUSさん@mplusplus_jpn が開発したもの。こんなふうに畳めちゃうんですね https://t.co/Ihr1HNz7Ow",
-  "caption_en": "(EN translation pending)"
-}
-DRY_RUN: not posting
-done. posted=3
-exit_status=success
+Traceback (most recent call last):
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 284, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 241, in main
+    copy = generate_copy(tw["text"])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 122, in generate_copy
+    txt = (claude(prompt) if ANTHROPIC_KEY else gemini(prompt)).strip()
+                                                ^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 82, in gemini
+    r = http(
+        ^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 46, in http
+    with urllib.request.urlopen(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
+    response = meth(req, response)
+               ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
+    response = self.parent.error(
+               ^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
+    return self._call_chain(*args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 429: Too Many Requests
+exit_status=failure
