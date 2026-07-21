@@ -1,37 +1,46 @@
 skip (no media): https://x.com/ntv_rd/status/2062826902101127448
 processing: https://x.com/ntv_rd/status/2063974384692539498
-Traceback (most recent call last):
-  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 284, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 241, in main
-    copy = generate_copy(tw["text"])
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 122, in generate_copy
-    txt = (claude(prompt) if ANTHROPIC_KEY else gemini(prompt)).strip()
-                                                ^^^^^^^^^^^^^^
-  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 82, in gemini
-    r = http(
-        ^^^^^
-  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 46, in http
-    with urllib.request.urlopen(
-         ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
-    return opener.open(url, data, timeout)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 521, in open
-    response = meth(req, response)
-               ^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 630, in http_response
-    response = self.parent.error(
-               ^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 559, in error
-    return self._call_chain(*args)
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
-    result = func(*args)
-             ^^^^^^^^^^^
-  File "/usr/lib/python3.12/urllib/request.py", line 639, in http_error_default
-    raise HTTPError(req.full_url, code, msg, hdrs, fp)
-urllib.error.HTTPError: HTTP Error 429: Too Many Requests
-exit_status=failure
+{
+  "title_line1": "山本大介 TIME SCAPE",
+  "title_line2": "T-HOUSE New Balanceにて6/9まで",
+  "telops": [
+    "山本大介によるインスタレーション",
+    "軽量鉄骨材を用いて資源の循環を表現",
+    "時の流れを風景として可視化した作品",
+    "心地よい振り子の音が響く空間",
+    "日本橋浜町 T-HOUSEにて6/9まで"
+  ],
+  "caption_ja": "空間デザイナー山本大介さんによるインスタレーション『TIME SCAPE』。資源の循環をテーマに、軽量鉄骨材を用いて制作。時の流れを風景として可視化した作品。振り子が刻む音も心地よい。機構設計は @spline_info 。\n\nnew balanceの体験型ストアT-HOUSE（日本橋浜町）にて、明日6/9まで！\n\n#山本大介 #DaisukeYamamoto #TIMESCAPE #THOUSE #newbalance #installation #インスタレーション #日本橋浜町 #ntvrd",
+  "caption_en": "\"TIME SCAPE\" is an installation by spatial designer Daisuke Yamamoto, themed around resource circulation. Made of lightweight steel, it visualizes the flow of time as a landscape, accompanied by the soothing sound of a pendulum.\n\nMechanism design: @spline_info\nOn view at T-HOUSE New Balance (Nihonbashi Hamacho) until tomorrow, June 9!"
+}
+DRY_RUN: not posting
+skip (no media): https://x.com/ntv_rd/status/2069355460671803642
+processing: https://x.com/ntv_rd/status/2075241833840640022
+{
+  "title_line1": "歌舞伎町にガス人間出現！",
+  "title_line2": "ドローン×LEDビジョンの超演出",
+  "telops": [
+    "歌舞伎町にガス人間が出現！",
+    "ドローン×LED“空飛ぶディスプレイ”",
+    "透過型ビジョンでリアルなガスを表現",
+    "俳優のUTAさんも登場！"
+  ],
+  "caption_ja": "歌舞伎町でガス人間に遭遇！！ドローン×LEDビジョンによる“空飛ぶディスプレイ”で、実空間に映像が浮かぶ超演出。透過タイプなのでガス表現との相性も抜群。俳優のUTAさんも登場\n#ガス人間",
+  "caption_en": "Spotted the \"Gas Human\" in Kabukicho! 🛸✨ A stunning performance using a \"flying display\" with drones and LED screens to bring visuals into the real world. The transparent display is a perfect match for the gas effect! Actor UTA also made an appearance. #GasHuman"
+}
+DRY_RUN: not posting
+processing: https://x.com/ntv_rd/status/2075949265751544258
+{
+  "title_line1": "フライングLEDビジョン",
+  "title_line2": "開発：MPLUSPLUS",
+  "telops": [
+    "MPLUSPLUS開発のフライングLED",
+    "なんと、こんなにコンパクトに！",
+    "折りたためる画期的な技術です"
+  ],
+  "caption_ja": "このフライングLEDビジョンはMPLUSPLUSさん（@mplusplus_official）が開発したもの。こんなふうに畳めちゃうんですね😮✨\n\n#フライングLEDビジョン #MPLUSPLUS #日テレRDラボ #テクノロジー #ガジェット #LEDビジョン",
+  "caption_en": "This Flying LED Vision was developed by MPLUSPLUS. It's amazing how compactly it folds up! 😮✨\n\n#FlyingLED #MPLUSPLUS #NTVRDlab #Technology #Innovation #LEDVision"
+}
+DRY_RUN: not posting
+done. posted=3
+exit_status=success
