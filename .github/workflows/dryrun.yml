@@ -17,7 +17,7 @@ jobs:
       - name: Install ffmpeg and fonts
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+          sudo apt-get install -y -q ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
           pip install pillow
       - name: Run sync in DRY_RUN mode
         id: run

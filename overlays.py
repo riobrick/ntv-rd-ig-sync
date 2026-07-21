@@ -26,8 +26,17 @@ FD = "/usr/share/fonts/opentype/noto/"
 ASSETS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
 
 
+_FALLBACK = {"Medium": ["Medium", "Bold", "Regular"],
+             "Bold": ["Bold", "Black", "Regular"],
+             "Regular": ["Regular", "Medium", "Bold"]}
+
+
 def font(size, weight="Medium"):
-    return ImageFont.truetype(FD + f"NotoSansCJK-{weight}.ttc", size, index=0)
+    for w in _FALLBACK.get(weight, [weight, "Regular"]):
+        path = FD + f"NotoSansCJK-{w}.ttc"
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size, index=0)
+    raise OSError("No NotoSansCJK font found under " + FD)
 
 
 def measure(text, f, tracking):

@@ -17,7 +17,7 @@ jobs:
       - name: Install deps
         run: |
           sudo apt-get update -q
-          sudo apt-get install -y -q ffmpeg fonts-noto-cjk
+          sudo apt-get install -y -q ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
           pip install pillow
       - name: Run in PREVIEW mode
         id: run
