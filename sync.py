@@ -70,16 +70,31 @@ def x_api(path, params):
 
 
 def claude(prompt):
-    body = json.dumps({
-        "model": "claude-sonnet-4-5",
-        "max_tokens": 2000,
-        "messages": [{"role": "user", "content": prompt}],
-    }).encode()
-    r = http("https://api.anthropic.com/v1/messages", method="POST",
-             headers={"x-api-key": ANTHROPIC_KEY,
-                      "anthropic-version": "2023-06-01",
-                      "content-type": "application/json"}, data=body)
-    return r["content"][0]["text"]
+    last_err = None
+    for model in ("claude-sonnet-5", "claude-sonnet-4-5"):
+        body = json.dumps({
+            "model": model,
+            "max_tokens": 2000,
+            "messages": [{"role": "user", "content": prompt}],
+        }).encode()
+        for attempt in range(3):
+            try:
+                r = http("https://api.anthropic.com/v1/messages", method="POST",
+                         headers={"x-api-key": ANTHROPIC_KEY,
+                                  "anthropic-version": "2023-06-01",
+                                  "content-type": "application/json"}, data=body)
+                return r["content"][0]["text"]
+            except RuntimeError as e:
+                last_err = e
+                msg = str(e)
+                if ("HTTP 404" in msg or "not_found" in msg) and "model" in msg:
+                    break  # unknown model -> try next
+                if any(c in msg for c in ("HTTP 429", "HTTP 529", "HTTP 500",
+                                          "HTTP 503")) and attempt < 2:
+                    time.sleep(30)
+                else:
+                    raise
+    raise last_err
 
 
 def gemini(prompt):
