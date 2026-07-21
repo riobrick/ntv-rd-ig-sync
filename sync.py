@@ -81,8 +81,11 @@ def gemini(prompt):
     }).encode()
     r = http(
         "https://generativelanguage.googleapis.com/v1beta/models/"
-        f"gemini-2.0-flash:generateContent?key={GEMINI_KEY}",
-        method="POST", headers={"content-type": "application/json"}, data=body)
+        "gemini-2.0-flash:generateContent",
+        method="POST",
+        headers={"content-type": "application/json",
+                 "x-goog-api-key": GEMINI_KEY},
+        data=body)
     return r["candidates"][0]["content"]["parts"][0]["text"]
 
 
