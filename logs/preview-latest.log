@@ -1,0 +1,32 @@
+processing: https://x.com/ntv_rd/status/2051896281128476873
+Traceback (most recent call last):
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 330, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 293, in main
+    render_video(src, out, copy, dur, td)
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/sync.py", line 174, in render_video
+    overlays.build_overlays(workdir, copy.get("hook_line1") or " ",
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/overlays.py", line 113, in build_overlays
+    hb = fit_hook(hook1.strip(), (hook2 or "").strip())
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/overlays.py", line 96, in fit_hook
+    band = (make_band_2line(l1, s1, "Bold", l2, s2, "Medium") if l2
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/overlays.py", line 71, in make_band_2line
+    f1, f2 = font(s1, w1), font(s2, w2)
+                           ^^^^^^^^^^^^
+  File "/home/runner/work/ntv-rd-ig-sync/ntv-rd-ig-sync/overlays.py", line 30, in font
+    return ImageFont.truetype(FD + f"NotoSansCJK-{weight}.ttc", size, index=0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/PIL/ImageFont.py", line 885, in truetype
+    return freetype(font)
+           ^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/PIL/ImageFont.py", line 882, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/.local/lib/python3.12/site-packages/PIL/ImageFont.py", line 298, in __init__
+    self.font = core.getfont(
+                ^^^^^^^^^^^^^
+OSError: cannot open resource
+exit_status=failure
