@@ -24,11 +24,11 @@ jobs:
           {
             echo "== version =="
             timeout 30 claude --version || echo "version exit=$?"
-            echo "== token prefix =="
-            echo "${CLAUDE_CODE_OAUTH_TOKEN:0:12} (len=${#CLAUDE_CODE_OAUTH_TOKEN})"
+            echo "== token length =="
+            echo "len=${#CLAUDE_CODE_OAUTH_TOKEN}"
             echo "== prompt test =="
             timeout 90 claude -p --output-format text "Reply with exactly: OK" 2>&1 || echo "prompt exit=$?"
-          } | tee /tmp/diag.log
+          } | sed -E 's/sk-ant-[A-Za-z0-9_-]+/sk-ant-REDACTED/g' | tee /tmp/diag.log
       - name: Commit diag log
         run: |
           mkdir -p logs

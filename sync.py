@@ -29,7 +29,7 @@ import overlays
 X_BEARER = os.environ["X_BEARER_TOKEN"]
 IG_TOKEN = os.environ["IG_ACCESS_TOKEN"]
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-CLAUDE_OAUTH = os.environ.get("CLAUDE_CODE_OAUTH_TOKEN", "")
+CLAUDE_OAUTH = re.sub(r"\s+", "", os.environ.get("CLAUDE_CODE_OAUTH_TOKEN", ""))
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 DEEPL_KEY = os.environ.get("DEEPL_API_KEY", "")
 GH_REPO = os.environ.get("GITHUB_REPOSITORY", "")
