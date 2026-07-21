@@ -89,7 +89,7 @@ def gemini(prompt):
     }).encode()
     last_err = None
     for model in ("gemini-flash-latest", "gemini-2.5-flash", "gemini-2.0-flash"):
-        for attempt in range(2):
+        for attempt in range(3):
             try:
                 r = http("https://generativelanguage.googleapis.com/v1beta/models/"
                          f"{model}:generateContent", method="POST",
@@ -98,8 +98,14 @@ def gemini(prompt):
                 return r["candidates"][0]["content"]["parts"][0]["text"]
             except RuntimeError as e:
                 last_err = e
-                if "HTTP 429" in str(e) and attempt == 0:
-                    time.sleep(20)
+                msg = str(e)
+                if "HTTP 429" in msg and attempt < 2:
+                    m = re.search(r"retry in (\d+)", msg)
+                    wait = min(int(m.group(1)) + 10, 120) if m else 65
+                    print(f"gemini 429 on {model}; waiting {wait}s")
+                    time.sleep(wait)
+                elif "HTTP 429" in msg:
+                    break  # try next model
                 else:
                     break
     raise last_err
@@ -307,7 +313,13 @@ def main():
         imgs = [m["url"] for m in media if m["type"] == "photo"]
 
         if DRY_RUN or CAPTIONS_ONLY:
-            copy = generate_copy(text, 4 if (vids and not CAPTIONS_ONLY) else 0)
+            try:
+                copy = generate_copy(text, 4 if (vids and not CAPTIONS_ONLY) else 0)
+            except Exception as e:
+                print(f"copy generation failed for {url}: {e}")
+                preview_note(url, "生成失敗(レート制限)", "(後で再実行してください)")
+                posted += 1
+                continue
             caption = f"{copy['caption_ja']}\n\n{copy['caption_en']}"
             if CAPTIONS_ONLY:
                 kind = "動画リール" if vids else f"画像投稿 ({len(imgs)}枚)"
