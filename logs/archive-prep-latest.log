@@ -1,9 +1,6 @@
 dumped 350 posts
 candidates: 309
-batch 0 parse failed: Expecting value: line 1 column 1 (char 0)
-batch 1/3 done (279/309)
-batch 1 parse failed: Expecting value: line 1 column 1 (char 0)
-batch 2/3 done (294/309)
-batch 3/3 done (309/309)
+batch 1/2 done (293/309)
+batch 2/2 done (308/309)
 all done
 exit_status=success
