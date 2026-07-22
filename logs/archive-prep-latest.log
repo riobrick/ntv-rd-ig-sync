@@ -1,0 +1,28 @@
+dumped 350 posts
+candidates: 309
+batch 1/21 done (15/309)
+batch 2/21 done (30/309)
+batch 2 parse failed: Extra data: line 18 column 1 (char 1143)
+batch 3/21 done (45/309)
+batch 4/21 done (60/309)
+batch 5/21 done (75/309)
+batch 6/21 done (90/309)
+batch 7/21 done (105/309)
+batch 8/21 done (120/309)
+batch 8 parse failed: Extra data: line 16 column 1 (char 1111)
+batch 9/21 done (135/309)
+batch 10/21 done (150/309)
+batch 11/21 done (165/309)
+batch 12/21 done (180/309)
+batch 13/21 done (195/309)
+batch 14/21 done (210/309)
+batch 15/21 done (225/309)
+batch 15 parse failed: Expecting value: line 1 column 1 (char 0)
+batch 16/21 done (240/309)
+batch 17/21 done (255/309)
+batch 18/21 done (270/309)
+batch 19/21 done (285/309)
+batch 20/21 done (300/309)
+batch 21/21 done (309/309)
+all done
+exit_status=success
