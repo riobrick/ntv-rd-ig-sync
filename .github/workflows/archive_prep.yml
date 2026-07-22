@@ -25,7 +25,6 @@ jobs:
           START_TIME: "2025-03-31T15:00:00Z"   # 2025-04-01 00:00 JST
         run: |
           set -o pipefail
-          rm -f preview/archive_rewrites.json
           python3 dump_posts.py 2>&1 | tee /tmp/prep.log
           python3 rewrite_archive.py 2>&1 | tee -a /tmp/prep.log
       - name: Commit outputs

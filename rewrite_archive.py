@@ -41,7 +41,9 @@ print(f"candidates: {len(cand)}")
 
 results = {}
 if os.path.exists("preview/archive_rewrites.json"):
-    results = json.load(open("preview/archive_rewrites.json"))
+    loaded = json.load(open("preview/archive_rewrites.json"))
+    results = {k: v for k, v in loaded.items()
+               if v.get("needs_rewrite") is not None}  # retry failed entries
 
 todo = [p for p in cand if p["id"] not in results]
 for i in range(0, len(todo), BATCH):
