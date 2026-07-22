@@ -27,6 +27,7 @@ jobs:
           set -o pipefail
           python3 dump_posts.py 2>&1 | tee /tmp/prep.log
           python3 rewrite_archive.py 2>&1 | tee -a /tmp/prep.log
+          python3 curate_archive.py 2>&1 | tee -a /tmp/prep.log
       - name: Commit outputs
         run: |
           mkdir -p logs preview
